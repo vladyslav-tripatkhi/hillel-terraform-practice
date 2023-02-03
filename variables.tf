@@ -1,0 +1,3 @@
+locals {
+  my_ip = ""
+}
