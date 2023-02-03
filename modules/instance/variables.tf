@@ -5,9 +5,9 @@ variable "instance_name" {
 }
 
 variable "instance_type" {
-    type = string
-    default     = "t2.micro"
-    description = "My instance's name"
+  type        = string
+  default     = "t2.micro"
+  description = "My instance's name"
 }
 
 variable "root_block_size" {
@@ -23,6 +23,10 @@ variable "root_volume_type" {
 }
 
 variable "instance_profile" {
-  type = string
+  type    = string
   default = null
+}
+
+variable "security_group_id" {
+  type = string
 }

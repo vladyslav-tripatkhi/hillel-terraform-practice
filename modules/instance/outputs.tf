@@ -11,6 +11,6 @@ output "instance_ip" {
 }
 
 output "module_path" {
-  value = path.module
+  value     = path.module
   sensitive = true
 }
