@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "hillel-devops-terraform-state"
+    bucket = "hillel-devops-terraform-state-0120"
     key    = "lesson25/terraform/terraform.tfstate"
     region = "us-east-1"
 
@@ -25,15 +25,15 @@ module "my_host" {
   source = "./modules/instance"
 
   for_each = {
-    "first_instance" : {
-      "instance_type" : "t2.micro",
-      "root_block_size" : 10,
-      "root_volume_type" : "gp3"
+    first_instance : {
+      instance_type : "t2.micro",
+      root_block_size : 10,
+      root_volume_type : "gp3"
     },
-    "second_instance" : {
-      "instance_type" : "t2.micro",
-      "root_block_size" : 10,
-      "root_volume_type" : "gp3"
+    second_instance : {
+      instance_type : "t2.micro",
+      root_block_size : 10,
+      root_volume_type : "gp3"
     },
   }
 
@@ -47,18 +47,26 @@ module "my_host" {
   depends_on = [aws_ecr_repository.react-app]
 }
 
+#resource "aws_vpc" "this" {
+#  cidr_block       = "192.168.0.0/16"
+#
+#  tags = {
+#    Name = "My_VPC"
+#  }
+#}
+
 resource "aws_ecr_repository" "react-app" {
   name         = "react-realworld-app"
   force_delete = true
 
   provisioner "local-exec" {
-    command = <<EOF
+    command = <<-EOF
 rm -rf /tmp/app
 git clone https://github.com/vladyslav-tripatkhi/react-redux-realworld-example-app.git /tmp/app
 cd /tmp/app
-docker build --platform linux/amd64 -t 507676015690.dkr.ecr.us-east-1.amazonaws.com/react-realworld-app:test .
-aws ecr get-login-password | docker login --username AWS --password-stdin 507676015690.dkr.ecr.us-east-1.amazonaws.com
-docker push 507676015690.dkr.ecr.us-east-1.amazonaws.com/react-realworld-app:test
-    EOF 
+docker build --platform linux/amd64 -t 058096277145.dkr.ecr.us-east-1.amazonaws.com/react-realworld-app:test .
+aws ecr get-login-password | docker login --username AWS --password-stdin 058096277145.dkr.ecr.us-east-1.amazonaws.com
+docker push 058096277145.dkr.ecr.us-east-1.amazonaws.com/react-realworld-app:test
+EOF
   }
 }

@@ -34,13 +34,13 @@ resource "aws_alb_listener" "this" {
   port              = 80
 
   default_action {
-    # type = "fixed-response"
-
-    # fixed_response {
-    #     content_type = "text/plain"
-    #     message_body = "{\"message\": \"Hello from Terraform\"}"
-    #     status_code  = "200"
-    # }
+#     type = "fixed-response"
+#
+#     fixed_response {
+#         content_type = "text/plain"
+#         message_body = "{\"message\": \"Hello from Terraform\"}"
+#         status_code  = "200"
+#     }
 
     type             = "forward"
     target_group_arn = aws_lb_target_group.this.arn
