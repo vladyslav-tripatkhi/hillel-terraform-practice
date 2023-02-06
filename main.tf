@@ -47,14 +47,6 @@ module "my_host" {
   depends_on = [aws_ecr_repository.react-app]
 }
 
-#resource "aws_vpc" "this" {
-#  cidr_block       = "192.168.0.0/16"
-#
-#  tags = {
-#    Name = "My_VPC"
-#  }
-#}
-
 resource "aws_ecr_repository" "react-app" {
   name         = "react-realworld-app"
   force_delete = true
