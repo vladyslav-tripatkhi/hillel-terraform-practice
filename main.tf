@@ -30,11 +30,11 @@ module "my_host" {
       root_block_size : 10,
       root_volume_type : "gp3"
     },
-#    second_instance : {
-#      instance_type : "t2.micro",
-#      root_block_size : 10,
-#      root_volume_type : "gp3"
-#    },
+    second_instance : {
+      instance_type : "t2.micro",
+      root_block_size : 10,
+      root_volume_type : "gp3"
+    },
   }
 
   instance_name     = each.key
