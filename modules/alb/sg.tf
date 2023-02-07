@@ -7,10 +7,9 @@ resource "aws_security_group" "this" {
 resource "aws_security_group_rule" "access_from_my_ip" {
   security_group_id = aws_security_group.this.id
   type        = "ingress"
-  for_each    = toset( ["80", "${var.listener_port}"] )
-  description       = "Allow connecting from my ip to port ${each.key}"
-  from_port   = each.key
-  to_port     = each.key
+  description = "Allow connecting from my ip to port 80"
+  from_port   = 80
+  to_port     = 80
   protocol    = "tcp"
   cidr_blocks = ["${var.my_ip}/32"]
 }

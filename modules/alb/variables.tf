@@ -24,7 +24,3 @@ variable "instance_sg_id" {
 variable "tg_port" {
   default = "8080"
 }
-
-variable "listener_port" {
-  default = "8001"
-}

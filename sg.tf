@@ -6,13 +6,13 @@ resource "aws_security_group" "my_host" {
 
 resource "aws_security_group_rule" "access_from_my_ip" {
   security_group_id = aws_security_group.my_host.id
-  type        = "ingress"
-  for_each    = toset( ["22", "80"] )
-  from_port   = each.key
-  to_port     = each.key
-  description = "Allow connecting from my ip to port ${each.key}"
-  protocol    = "tcp"
-  cidr_blocks = ["${local.my_ip}/32"]
+  type              = "ingress"
+  for_each          = toset(["22", "80"])
+  from_port         = each.key
+  to_port           = each.key
+  description       = "Allow connecting from my ip to port ${each.key}"
+  protocol          = "tcp"
+  cidr_blocks       = ["${local.my_ip}/32"]
 }
 
 resource "aws_security_group_rule" "access_from_alb" {

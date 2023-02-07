@@ -28,31 +28,38 @@ resource "aws_lb_target_group_attachment" "this" {
   port             = var.tg_port
 }
 
-resource "aws_alb_listener" "this-1" {
+resource "aws_lb_listener" "this" {
   load_balancer_arn = aws_alb.this.arn
+  port              = "80"
   protocol          = "HTTP"
-  port              = 80
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.this.arn
   }
-  tags = {
-    Tags = "Forward to port ${var.tg_port} app"
-  }
 }
 
-resource "aws_alb_listener" "this-2" {
-  load_balancer_arn = aws_alb.this.arn
-  protocol          = "HTTP"
-  port              = var.listener_port
+resource "aws_lb_listener_rule" "health_check" {
+  listener_arn = aws_lb_listener.this.arn
 
-  default_action {
+  condition {
+    path_pattern {
+      values = ["/ping"]
+    }
+  }
+
+  condition {
+    http_request_method {
+      values = ["GET"]
+    }
+  }
+
+  action {
     type = "fixed-response"
 
     fixed_response {
       content_type = "text/plain"
-      message_body = "pong"
+      message_body = "PONG"
       status_code  = "200"
     }
   }
