@@ -6,9 +6,8 @@ resource "aws_security_group" "this" {
 
 resource "aws_security_group_rule" "access_from_my_ip" {
   security_group_id = aws_security_group.this.id
-  description       = "Allow connecting from my ip"
-
   type        = "ingress"
+  description = "Allow connecting from my ip to port 80"
   from_port   = 80
   to_port     = 80
   protocol    = "tcp"
@@ -20,9 +19,8 @@ resource "aws_security_group_rule" "egress_anywhere" {
   description       = "Allow outbound traffic"
 
   type      = "egress"
-  from_port = 8080
-  to_port   = 8080
+  from_port = var.tg_port
+  to_port   = var.tg_port
   protocol  = "all"
-  # cidr_blocks = ["0.0.0.0/0"]
   source_security_group_id = var.instance_sg_id
 }

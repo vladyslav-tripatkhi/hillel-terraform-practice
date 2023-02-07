@@ -4,3 +4,7 @@ data "aws_vpc" "this" {
     values = ["default"]
   }
 }
+
+data "http" "myip" {
+  url = "http://ipv4.icanhazip.com"
+}

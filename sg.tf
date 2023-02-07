@@ -4,15 +4,15 @@ resource "aws_security_group" "my_host" {
   vpc_id      = data.aws_vpc.this.id
 }
 
-resource "aws_security_group_rule" "ssh_access_from_my_ip" {
+resource "aws_security_group_rule" "access_from_my_ip" {
   security_group_id = aws_security_group.my_host.id
-  description       = "Allow connecting from my ip"
-
-  type        = "ingress"
-  from_port   = 22
-  to_port     = 22
-  protocol    = "tcp"
-  cidr_blocks = ["${local.my_ip}/32"]
+  type              = "ingress"
+  for_each          = toset(["22", "80"])
+  from_port         = each.key
+  to_port           = each.key
+  description       = "Allow connecting from my ip to port ${each.key}"
+  protocol          = "tcp"
+  cidr_blocks       = ["${local.my_ip}/32"]
 }
 
 resource "aws_security_group_rule" "access_from_alb" {
@@ -20,13 +20,13 @@ resource "aws_security_group_rule" "access_from_alb" {
   description       = "Allow connecting from ALB"
 
   type                     = "ingress"
-  from_port                = 8080
-  to_port                  = 8080
+  from_port                = var.tg_port
+  to_port                  = var.tg_port
   protocol                 = "tcp"
   source_security_group_id = module.alb.security_group_id
 }
 
-resource "aws_security_group_rule" "access_from_my_ip" {
+resource "aws_security_group_rule" "access_from_my_app" {
   security_group_id = aws_security_group.my_host.id
   description       = "Allow outbound traffic"
 

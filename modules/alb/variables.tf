@@ -20,3 +20,7 @@ variable "instance_ids" {
 variable "instance_sg_id" {
   type = string
 }
+
+variable "tg_port" {
+  default = "8080"
+}
